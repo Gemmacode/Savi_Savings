@@ -7,7 +7,7 @@ namespace Savi.Data.Repositories.Implementation
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly SaviDbContext _context;
+        protected readonly SaviDbContext _context;
 
         public GenericRepository(SaviDbContext context)
         {

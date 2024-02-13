@@ -224,17 +224,17 @@ namespace Savi.Core.Services
                 {
                     return new ApiResponse<string>(false, "User unable to register.", StatusCodes.Status400BadRequest, new List<string> { "User unable to register." });
                 }
-                var emailConfirmationLink = GenerateEmailConfirmationLink(appUser.Id, appUser.EmailConfirmationToken);
+                //var emailConfirmationLink = GenerateEmailConfirmationLink(appUser.Id, appUser.EmailConfirmationToken);
 
 
-                var mailRequest = new MailRequest
-                {
-                    ToEmail = appUser.Email,
-                    Subject = "Email Confirmation",
-                    Body = $"Please confirm your email by clicking <a href='{emailConfirmationLink}'>here</a>."
-                };
+                //var mailRequest = new MailRequest
+                //{
+                //    ToEmail = appUser.Email,
+                //    Subject = "Email Confirmation",
+                //    Body = $"Please confirm your email by clicking <a href='{emailConfirmationLink}'>here</a>."
+                //};
                 await services.CreateWallet(appUser.Id);
-                await _emailService.SendHtmlEmailAsync(mailRequest);
+                //await _emailService.SendHtmlEmailAsync(mailRequest);
                 return ApiResponse<string>.Success(appUserCreateDto.Email, "Registration successful. Please check your email for confirmation instructions.", StatusCodes.Status200OK);
 
                 //return ApiResponse<string>.Success(appUserCreateDto.Email, $"{appUserCreateDto.FirstName} registered successfully", StatusCodes.Status200OK);

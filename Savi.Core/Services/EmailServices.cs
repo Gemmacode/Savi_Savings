@@ -44,7 +44,6 @@ namespace Savi.Core.Services
                 }
                 catch (Exception ex)
                 {
-                    // Log the exception or handle it appropriately
                     throw new InvalidOperationException("Email sending failed.", ex);
                 }
             }

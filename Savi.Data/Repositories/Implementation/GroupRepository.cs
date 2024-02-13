@@ -1,4 +1,5 @@
-﻿using Savi.Data.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Savi.Data.Context;
 using Savi.Data.Repositories.Interface;
 using Savi.Model.Entities;
 using System.Linq.Expressions;
@@ -61,5 +62,20 @@ namespace Savi.Data.Repositories.Implementation
             }
             return true;
         }
+        //public List<Group> GetGroupSavingsCreatedToday()
+        //{
+        //    var today = DateTime.Today;
+        //    return _context.Groups
+        //        .Where(group => group.CreatedAt.Date == today)
+        //        .ToList();
+        //}
+        public async Task<List<Group>> GetGroupSavingsCreatedTodayAsync()
+        {
+            var today = DateTime.Today;
+            return await _context.Groups
+                .Where(group => group.CreatedAt.Date == today)
+                .ToListAsync();
+        }
+
     }
 }

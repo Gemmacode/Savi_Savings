@@ -15,5 +15,7 @@ namespace Savi.Data.Repositories.Interface
         void UpdateGroupAsync(Group group);
         List<Group> FindGroups(Expression<Func<Group, bool>> expression);
         Task<Group> GetGroupByIdAsync(string id);
+       // List<Group> GetGroupSavingsCreatedToday();
+        Task<List<Group>> GetGroupSavingsCreatedTodayAsync();
     }
 }

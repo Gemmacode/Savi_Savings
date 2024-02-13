@@ -2,9 +2,10 @@
 
 namespace Savi.Core.DTO
 {
-    public class GroupDTO
+    public class GroupDTO3
     {
-        public string SaveName { get; set; } 
+        public string Id { get; set; }
+        public string SaveName { get; set; }
         public string Description { get; set; }
         public decimal ContributionAmount { get; set; }
         public DateTime ExpectedEndDate { get; set; }

@@ -5,6 +5,7 @@ using Savi.Core.DTO;
 using Savi.Core.IServices;
 using Savi.Data.Repositories.Interface;
 using Savi.Model;
+using Savi.Utility.Pagination;
 
 namespace Savi.Core.Services
 {
@@ -43,6 +44,53 @@ namespace Savi.Core.Services
         public Task<ApiResponse<GroupTransactionDto>> GetGroupTransactionsAsync(int page, int perPage)
         {
             throw new NotImplementedException();
+        }
+
+       public async Task<ApiResponse<PageResult<List<GroupDTO3>>>> GetAllGroupSavingsTodayAsync(int perPage, int page)
+        {
+            try
+            {
+                var groupSavingsToday = await _unitOfWork.GroupRepository.GetGroupSavingsCreatedTodayAsync(); 
+
+                if (groupSavingsToday != null && groupSavingsToday.Any())
+                {
+                    var mappedGroups = _mapper.Map<List<GroupDTO3>>(groupSavingsToday);
+
+                    var paginatedResult = await PagePagination<GroupDTO3>.GetPager(mappedGroups, perPage, page, group => group.SaveName, group => group.Id);
+
+                    return ApiResponse<PageResult<List<GroupDTO3>>>.Success(
+                        new PageResult<List<GroupDTO3>>
+                        {
+                            Data = paginatedResult.Data.ToList(),
+                            TotalPageCount = paginatedResult.TotalPageCount,
+                            CurrentPage = paginatedResult.CurrentPage,
+                            PerPage = paginatedResult.PerPage,
+                            TotalCount = paginatedResult.TotalCount
+                        },
+                        "Group savings created today found successfully",
+                        StatusCodes.Status200OK
+                    );
+                }
+                else
+                {
+                    return ApiResponse<PageResult<List<GroupDTO3>>>.Failed(
+                        false,
+                        "No group savings created today",
+                        StatusCodes.Status404NotFound,
+                        new List<string> { "No group savings created today" }
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while getting group savings created today");
+                return ApiResponse<PageResult<List<GroupDTO3>>>.Failed(
+                    false,
+                    "Error occurred while processing your request",
+                    StatusCodes.Status500InternalServerError,
+                    new List<string> { ex.Message }
+                );
+            }
         }
     }
 }
