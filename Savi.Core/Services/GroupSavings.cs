@@ -6,7 +6,6 @@ using Savi.Data.Context;
 using Savi.Data.Repositories.Interface;
 using Savi.Model.Entities;
 using Savi.Model.Enums;
-using System;
 
 namespace Savi.Core.Services
 {
@@ -26,7 +25,6 @@ namespace Savi.Core.Services
             _saviDbContext = saviDbContext;
             _groupSavingsMembersRepository = groupSavingsMembersRepository;
         }
-
         public ResponseDto<List<GroupDTO>> GetExploreGroupSavingGroups()
         {
             var response = new ResponseDto<List<GroupDTO>>();
@@ -67,7 +65,6 @@ namespace Savi.Core.Services
                 };
             }        
         }
-
         public ResponseDto<GroupDTO> GetExploreGroupSavingDetails(string groupId)
         {
             ArgumentNullException.ThrowIfNull(nameof(groupId));
@@ -105,7 +102,6 @@ namespace Savi.Core.Services
                 };
             }
         }
-
         public ResponseDto<GroupDTO> GetGroupSavingAccountDetails(string groupId)
         {
             ArgumentNullException.ThrowIfNull(nameof(groupId));
@@ -184,7 +180,6 @@ namespace Savi.Core.Services
                 };
             }
         }
-
         public async Task<ResponseDto<string>> CreateSavingsGroup(GroupDTO2 dto)
         {
             try
@@ -238,9 +233,46 @@ namespace Savi.Core.Services
                     StatusCode = 500
                 };
             }
-
         }
 
+        public ResponseDto<List<GroupDTO>> GetListOfAllGroupSavings()
+        {
+            var response = new ResponseDto<List<GroupDTO>>();
+
+            try
+            {                
+                var ongoingGroups = _unitOfWork.GroupRepository.GetAll();
+
+                if (ongoingGroups.Count > 0)
+                {
+                    var mappedOngoingGroups = _IMapper.Map<List<GroupDTO>>(ongoingGroups);
+                    return new ResponseDto<List<GroupDTO>>()
+                    {
+                        DisplayMessage = "Success",
+                        Result = mappedOngoingGroups,
+                        StatusCode = 200
+                    };
+                }
+                else
+                {
+                    return new ResponseDto<List<GroupDTO>>()
+                    {
+                        DisplayMessage = "No group found",
+                        Result = null,
+                        StatusCode = 404
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDto<List<GroupDTO>>()
+                {
+                    DisplayMessage = $"{ex.Message}",
+                    Result = null,
+                    StatusCode = 500
+                };
+            }
+        }
         public async Task<ResponseDto<int>> GetTotalSavingsGroupCountAsync()
         {
             var response = new ResponseDto<int>();
@@ -256,8 +288,8 @@ namespace Savi.Core.Services
                 };
             }
             catch (Exception ex)
-            {                
-                SetErrorResponse(response, ex.Message, StatusCodes.Status500InternalServerError);               
+            {
+                SetErrorResponse(response, ex.Message, StatusCodes.Status500InternalServerError);
             }
             return response;
         }
@@ -276,5 +308,7 @@ namespace Savi.Core.Services
         }
     }
 }
+    
+
     
 

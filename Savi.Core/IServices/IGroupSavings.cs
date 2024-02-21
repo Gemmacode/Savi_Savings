@@ -1,12 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Savi.Core.DTO;
-using Savi.Model.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using Savi.Core.DTO;
 namespace Savi.Core.IServices
 {
     public interface IGroupSavings
@@ -16,6 +8,7 @@ namespace Savi.Core.IServices
         ResponseDto<GroupDTO> GetGroupSavingAccountDetails(string groupId);
         ResponseDto<List<GroupDTO>> GetListOfActiveSavingsGroups();
         Task<ResponseDto<string>> CreateSavingsGroup(GroupDTO2 dto);
+        ResponseDto<List<GroupDTO>> GetListOfAllGroupSavings();
         Task<ResponseDto<int>> GetTotalSavingsGroupCountAsync();
     }
 }

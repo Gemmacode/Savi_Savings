@@ -92,15 +92,24 @@ namespace Savi.Api.Controllers
                 _ => BadRequest(response)
             };
         }
-
-
         [HttpPost("CreateGroupSavings")]
         public async Task<IActionResult> CreateNewGroupSavingAsync([FromForm] GroupDTO2 groupDTO)
         {
             var response = await _groupSavings.CreateSavingsGroup(groupDTO);
             return Ok(response);
         }
-
+        [HttpGet("GetAllGroups")]
+        public IActionResult GetAllGroupSavings()
+        {
+            var response = _groupSavings.GetListOfAllGroupSavings();
+            return response.StatusCode switch
+            {
+                200 => Ok(response),
+                404 => NotFound(response),
+                500 => StatusCode(500, response),
+                _ => BadRequest(response)
+            };
+        }
         [HttpGet("TotalSavingsGroupCount")]
         public async Task<IActionResult> GetTotalSavingsGroupCountAsync()
         {
@@ -118,6 +127,5 @@ namespace Savi.Api.Controllers
                 });
             }
         }
-
     }
-}
+}      

@@ -44,7 +44,7 @@ namespace Savi.Api.Extensions
             services.AddScoped<IGroupSavings, GroupSavings>();
             services.AddScoped<ISavingRepository, SavingRepository>();
             services.AddScoped<IWalletServices, WalletServices>();
-            services.AddScoped<IWalletService, WalletService>();
+            services.AddScoped<IWalletService, WalletService>();           
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -70,7 +70,7 @@ namespace Savi.Api.Extensions
             services.AddHangfireServer();
             services.AddScoped<IAutoSaveBackgroundService,AutoSaveBackgroundService>();
             services.AddScoped<IGroupSavingsMembersServices, GroupSavingsMembersServices>();
-            services.AddScoped<IGroupSavingsMembersRepository, GroupSavingsMembersRepository>();
+            services.AddScoped<IGroupSavingsMembersRepository, GroupSavingsMembersRepository>();           
 
         }
     }
